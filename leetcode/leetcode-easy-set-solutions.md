@@ -664,19 +664,408 @@ class Solution(object):
 
 ### Reverse String
 
+{% tabs %}
+{% tab title="First Tab" %}
+Write a function that reverses a string. The input string is given as an array of characters `char[]`.
+
+Do not allocate extra space for another array, you must do this by **modifying the input array** [**in-place**](https://en.wikipedia.org/wiki/In-place_algorithm) with O\(1\) extra memory.
+
+You may assume all the characters consist of [printable ascii characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
+
+**Example 1:**
+
+```text
+Input: ["h","e","l","l","o"]
+Output: ["o","l","l","e","h"]
+```
+
+**Example 2:**
+
+```text
+Input: ["H","a","n","n","a","h"]
+Output: ["h","a","n","n","a","H"]
+```
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+class Solution(object):
+    def reverseString(self, s):
+        """
+        :type s: List[str]
+        :rtype: None Do not return anything, modify s in-place instead.
+        """
+        i, j = 0, len(s)-1
+        
+        while i <= j:
+            temp = s[i]
+            s[i] = s[j]
+            s[j] = temp
+            i+=1
+            j-=1
+```
+{% endtab %}
+{% endtabs %}
+
 ### Reverse Integer
+
+{% tabs %}
+{% tab title="First Tab" %}
+Given a 32-bit signed integer, reverse digits of an integer.
+
+**Example 1:**
+
+```text
+Input: 123
+Output: 321
+```
+
+**Example 2:**
+
+```text
+Input: -123
+Output: -321
+```
+
+**Example 3:**
+
+```text
+Input: 120
+Output: 21
+```
+
+**Note:**  
+Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: \[−231,  231 − 1\]. For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows.
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+import sys
+class Solution(object):
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        
+        neg = x < 0
+        x = abs(x) 
+            
+        def len_num(num):
+            length = 0
+            while num > 0: 
+                num/=10
+                length+=1
+                
+            return length
+        
+        ans = 0
+        u = len_num(x)-1
+        while x != 0:
+            last = x%10 
+            ans += last*(10**u)
+            x/=10
+            u-=1
+            
+            
+        if ans < -1 * 2**31 or ans > 2**31-1: return 0
+
+        
+        return -1 * ans if neg else ans
+```
+{% endtab %}
+{% endtabs %}
 
 ### First Unique Character in a String
 
+{% tabs %}
+{% tab title="First Tab" %}
+Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+
+**Examples:**
+
+```text
+s = "leetcode"
+return 0.
+
+s = "loveleetcode",
+return 2.
+```
+
+**Note:** You may assume the string contain only lowercase English letters.
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        mem = {} 
+        
+        for i, l in enumerate(s): 
+            if l not in mem: 
+                mem[l] = set()
+            mem[l].add(i)
+                    
+        for l in s:
+            if len(mem[l]) == 1:
+                return list(mem[l])[0]
+        
+        return -1
+```
+{% endtab %}
+{% endtabs %}
+
 ### Valid Anagram
+
+{% tabs %}
+{% tab title="First Tab" %}
+Given two strings _s_ and _t_ , write a function to determine if _t_ is an anagram of _s_.
+
+**Example 1:**
+
+```text
+Input: s = "anagram", t = "nagaram"
+Output: true
+```
+
+**Example 2:**
+
+```text
+Input: s = "rat", t = "car"
+Output: false
+```
+
+**Note:**  
+You may assume the string contains only lowercase alphabets.
+
+**Follow up:**  
+What if the inputs contain unicode characters? How would you adapt your solution to such case?
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+from collections import Counter
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        return Counter(s) == Counter(t)
+```
+{% endtab %}
+{% endtabs %}
 
 ### Valid Palindrome
 
+{% tabs %}
+{% tab title="First Tab" %}
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+**Note:** For the purpose of this problem, we define empty string as valid palindrome.
+
+**Example 1:**
+
+```text
+Input: "A man, a plan, a canal: Panama"
+Output: true
+```
+
+**Example 2:**
+
+```text
+Input: "race a car"
+Output: false
+```
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        s = list(filter(lambda x : x.isalnum(), list(s.lower())))
+        i, j = 0, len(s)-1
+        while i <= j: 
+            if s[i] != s[j]:
+                return False
+            i+=1
+            j-=1
+        return True
+```
+{% endtab %}
+{% endtabs %}
+
 ### Implement strStr\(\)
+
+{% tabs %}
+{% tab title="First Tab" %}
+Implement [strStr\(\)](http://www.cplusplus.com/reference/cstring/strstr/).
+
+Return the index of the first occurrence of needle in haystack, or **-1** if needle is not part of haystack.
+
+**Example 1:**
+
+```text
+Input: haystack = "hello", needle = "ll"
+Output: 2
+```
+
+**Example 2:**
+
+```text
+Input: haystack = "aaaaa", needle = "bba"
+Output: -1
+```
+
+**Clarification:**
+
+What should we return when `needle` is an empty string? This is a great question to ask during an interview.
+
+For the purpose of this problem, we will return 0 when `needle` is an empty string. This is consistent to C's [strstr\(\)](http://www.cplusplus.com/reference/cstring/strstr/) and Java's [indexOf\(\)](https://docs.oracle.com/javase/7/docs/api/java/lang/String.html#indexOf%28java.lang.String%29).
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        i, j = 0, len(needle)-1
+        while j < len(haystack):
+            if haystack[i:j+1] == needle:
+                return i
+            i, j = i+1, j+1
+        return -1
+```
+{% endtab %}
+{% endtabs %}
 
 ### Count and Say
 
+{% tabs %}
+{% tab title="First Tab" %}
+The count-and-say sequence is the sequence of integers with the first five terms as following:
+
+```text
+1.     1
+2.     11
+3.     21
+4.     1211
+5.     111221
+```
+
+`1` is read off as `"one 1"` or `11`.  
+`11` is read off as `"two 1s"` or `21`.  
+`21` is read off as `"one 2`, then `one 1"` or `1211`.
+
+Given an integer n where 1 ≤ _n_ ≤ 30, generate the nth term of the count-and-say sequence. You can do so recursively, in other words from the previous member read off the digits, counting the number of digits in groups of the same digit.
+
+Note: Each term of the sequence of integers will be represented as a string.
+
+**Example 1:**
+
+```text
+Input: 1
+Output: "1"
+Explanation: This is the base case.
+```
+
+**Example 2:**
+
+```text
+Input: 4
+Output: "1211"
+Explanation: For n = 3 the term was "21" in which we have two groups "2" and "1", "2" can be read as "12" which means frequency = 1 and value = 2, the same way "1" is read as "11", so the answer is the concatenation of "12" and "11" which is "1211".
+```
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+class Solution:    
+    def getNext(self, s: str) -> str:
+        i, j = 0, 0
+        ans = ""
+        curr_count = 0
+        while i < len(s) and j < len(s):
+            if s[i] != s[j]:
+                ans = ans + str(curr_count) + s[j-1]
+                curr_count=0
+                i=j
+            else:
+                curr_count+=1
+                j+=1
+        
+        ans = ans + str(curr_count) + s[j-1]
+        return ans
+
+    def countAndSay(self, n: int) -> str:
+        
+        if n == 1:
+            return "1"
+        
+        prev = self.countAndSay(n-1)
+        ans = self.getNext(prev)
+        
+        return ans
+```
+{% endtab %}
+{% endtabs %}
+
 ### Longest Common Prefix
+
+{% tabs %}
+{% tab title="First Tab" %}
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string `""`.
+
+**Example 1:**
+
+```text
+Input: ["flower","flow","flight"]
+Output: "fl"
+```
+
+**Example 2:**
+
+```text
+Input: ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+```
+
+**Note:**
+
+All given inputs are in lowercase letters `a-z`.
+{% endtab %}
+
+{% tab title="Second Tab" %}
+```python
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        if len(strs) == 0: return ""
+
+        i, j = 0, 0
+        
+        min_len = min(map(lambda x: len(x), strs))
+        max_length = -1
+        max_range = (-1, -1)
+        
+        while j < min_len:
+            prev = strs[0]
+            range_valid = True
+            
+            for s in strs:
+                if prev[i:j+1] != s[i:j+1]:
+                    range_valid = False
+                prev = s
+                    
+            if range_valid: 
+                if j-i > max_length:
+                    max_range = (i, j)
+                    max_length = j-i
+                    
+            j+=1
+
+        if max_length == -1: return ""
+        return strs[0][max_range[0]:max_range[1]+1]
+```
+{% endtab %}
+{% endtabs %}
 
 ## LinkedLists
 
