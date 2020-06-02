@@ -1,8 +1,6 @@
----
-description: All problems solved by me.
----
-
 # Leetcode Easy Set Solutions
+
+All problems solved by me. Should be all optimal, if not [PRs](https://www.github.com/lukeyeh/notes) are welcome.
 
 ## Array
 
